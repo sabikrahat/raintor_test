@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:signalr_core/signalr_core.dart';
 
 import '../../../core/config/environment.dart';
@@ -16,6 +17,9 @@ class SignalRProvider extends AsyncNotifier<void> {
   String myLocation = 'Waiting for my current location...';
   List<String> otherUserLocation = [];
   bool _isReconnecting = false;
+
+  Set<Marker> liveMarkers = {};
+  LatLng? myLatLng;
 
   @override
   FutureOr<void> build() async {
@@ -87,27 +91,35 @@ class SignalRProvider extends AsyncNotifier<void> {
         log('Received location payload: $arguments');
         if (arguments != null) {
           otherUserLocation.clear();
+          liveMarkers.removeWhere((m) => m.markerId.value != 'me');
 
           for (var arg in arguments) {
             try {
-              if (arg is Map<String, dynamic> ||
-                  (arg is Map && arg.containsKey('lat') && arg.containsKey('lon'))) {
-                final lat = arg['lat'];
-                final lon = arg['lon'];
+              if (arg is Map && arg.containsKey('lat') && arg.containsKey('lon')) {
+                final lat = arg['lat'] as double;
+                final lon = arg['lon'] as double;
                 final userName = arg['userName'] ?? 'Unknown User';
+
                 otherUserLocation.add('$userName → Lat: $lat, Lon: $lon');
-              } else {
-                log('Invalid data structure received: $arg');
+
+                liveMarkers.add(
+                  Marker(
+                    markerId: MarkerId(userName),
+                    position: LatLng(lat, lon),
+                    infoWindow: InfoWindow(title: userName),
+                    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+                  ),
+                );
               }
             } catch (e) {
               log('Error parsing data item: $e');
             }
           }
+
+          ref.notifyListeners();
         } else {
           log('Received data is empty or in unexpected format');
         }
-
-        ref.notifyListeners();
       });
     } catch (e) {
       log('Error setting up receiver: $e');
@@ -143,8 +155,20 @@ class SignalRProvider extends AsyncNotifier<void> {
     ).listen((Position position) async {
       final lat = position.latitude;
       final lon = position.longitude;
+      myLatLng = LatLng(lat, lon);
       final userName = 'sabikrahat72428@gmail.com';
       myLocation = 'My Location → Lat: $lat, Lon: $lon';
+
+      liveMarkers.removeWhere((m) => m.markerId.value == 'me');
+      liveMarkers.add(
+        Marker(
+          markerId: const MarkerId('me'),
+          position: LatLng(lat, lon),
+          infoWindow: const InfoWindow(title: 'Me'),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        ),
+      );
+
       ref.notifyListeners();
 
       if (hubConnection.state == HubConnectionState.connected) {

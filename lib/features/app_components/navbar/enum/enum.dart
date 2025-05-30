@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:raintor_test/features/infinite_scroll/view/infinite_scroll.dart';
-import 'package:raintor_test/features/signal_r/view/signal_r.dart';
+import '../../../infinite_scroll/view/infinite_scroll.dart';
+import '../../../signal_r/view/signal_r.dart';
 
 enum KNavbar { signalR, infiniteScroll }
 

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:raintor_test/core/config/environment.dart';
-import 'package:raintor_test/core/router/go_routes.dart';
+import 'core/config/environment.dart';
+import 'core/router/go_routes.dart';
 import 'package:signalr_core/signalr_core.dart';
 
 void main() async {

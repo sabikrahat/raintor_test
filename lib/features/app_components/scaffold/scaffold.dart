@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raintor_test/core/config/constant.dart';
+import '../../../core/config/constant.dart';
 import '../navbar/enum/enum.dart';
 import '../navbar/navbar.dart';
 

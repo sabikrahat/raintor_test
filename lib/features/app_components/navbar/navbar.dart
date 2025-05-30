@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:raintor_test/core/config/constant.dart';
-import 'package:raintor_test/core/router/go_routes.dart';
+import '../../../core/config/constant.dart';
+import '../../../core/router/go_routes.dart';
 
 import 'enum/enum.dart';
 

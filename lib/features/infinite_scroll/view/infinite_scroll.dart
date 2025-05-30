@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raintor_test/features/infinite_scroll/provider/post.dart';
+import '../provider/post.dart';
 
 class InfiniteScrollView extends ConsumerStatefulWidget {
   const InfiniteScrollView({super.key});

@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:raintor_test/core/router/app_routes.dart';
-import 'package:raintor_test/features/infinite_scroll/view/infinite_scroll.dart';
-import 'package:raintor_test/features/signal_r/view/signal_r.dart';
+import 'app_routes.dart';
+import '../../features/infinite_scroll/view/infinite_scroll.dart';
+import '../../features/signal_r/view/signal_r.dart';
 
 import '../../features/app_components/scaffold/scaffold.dart';
 

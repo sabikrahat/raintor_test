@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:raintor_test/features/infinite_scroll/model/post.dart';
+import '../model/post.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
